@@ -16,21 +16,24 @@ import com.wallet.service.UserService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService service;
-	
+
 	@PostMapping
 	public ResponseEntity<Response<UserDTO>> create(@Valid @RequestBody UserDTO userDto, BindingResult result) {
 		Response<UserDTO> response = new Response<UserDTO>();
-		User user = service.save(new User(userDto.getUsername(), userDto.getPassword(), userDto.getEmail()));
-		
-		response.setData(new UserDTO(user.getId(), user.getUsername(), userDto.getPassword(), userDto.getEmail()));
-		
+
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+
+		User user = service.save(new User(userDto));
+		response.setData(new UserDTO(user));
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 

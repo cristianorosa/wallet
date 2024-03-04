@@ -1,11 +1,12 @@
 package com.wallet.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Response<T> {
 	
 	private T data;
-	private List<String> errors;
+	private List<String> errors = new ArrayList<String>();
 
 	public T getData() {
 		return data;
