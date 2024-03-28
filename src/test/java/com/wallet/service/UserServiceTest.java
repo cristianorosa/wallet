@@ -28,19 +28,21 @@ public class UserServiceTest {
 	UserService service;
 
 	@BeforeEach
-	void init() {
-		BDDMockito.given(repo.findByEmail(Mockito.anyString())).willReturn(Optional.of(new User()));
+	void setUp() {
+		
 	}
 	
 	@Test
 	public void testFindByEmail() {
+		BDDMockito.given(repo.findByEmail(Mockito.anyString())).willReturn(Optional.of(new User()));
+		
 		Optional<User> user = service.findByEmail("email@test.com");
 		
 		assertTrue(user.isPresent());
 	}
 	
 	@AfterEach
-    void tearDownAll() {
+    void tearDown() {
 		
     }
 

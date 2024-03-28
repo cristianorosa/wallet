@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "WALLET")
@@ -22,12 +23,21 @@ public class Wallet implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false)
+	
+	@NotNull
 	private String name;
-	@Column(nullable = false)
+	
+	@Column(name = "wallet_value")
 	private BigDecimal value;
 
 	public Wallet() {
+	}
+
+	public Wallet(@Valid Long id, String name, BigDecimal value) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.value = value;
 	}
 
 	public Wallet(@Valid WalletDTO dto) {
